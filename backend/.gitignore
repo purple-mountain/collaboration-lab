@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# no need for tests
+#
+
 # Logs
 logs
 *.log
