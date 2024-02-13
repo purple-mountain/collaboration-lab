@@ -11,7 +11,7 @@ datasource db {
 model Task {
   id          Int     @id @default(autoincrement())
   name        String  @db.VarChar(255)
-  authorId    Int
+  authorId    String
   isCompleted Boolean
 
   createdAt DateTime @default(now())
