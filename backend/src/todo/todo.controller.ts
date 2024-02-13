@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Prisma } from '@prisma/client';
+import { ZodValidationPipe } from 'src/zod-validation.pipe';
+import { todoSchema } from './dto/todo.dto';
 
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  create(@Body() createTodoDto: Prisma.TaskCreateInput) {
+  create(
+    @Body(new ZodValidationPipe(todoSchema))
+    createTodoDto: Prisma.TaskCreateInput,
+  ) {
     return this.todoService.create(createTodoDto);
   }
 
@@ -25,16 +31,17 @@ export class TodoController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.todoService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
-    @Body() updateTodoDto: Prisma.TaskUpdateInput,
+    @Param('id', ParseIntPipe) id: number,
+    @Body(new ZodValidationPipe(todoSchema))
+    updateTodoDto: Prisma.TaskUpdateInput,
   ) {
-    return this.todoService.update(+id, updateTodoDto);
+    return this.todoService.update(id, updateTodoDto);
   }
 
   @Delete(':id')

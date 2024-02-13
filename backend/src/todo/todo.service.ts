@@ -1,20 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
+
 @Injectable()
 export class TodoService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createTodoDto: Prisma.TaskCreateInput) {
-    return this.databaseService.Post.create({ data: createTodoDto });
+    return this.databaseService.task.create({ data: createTodoDto });
   }
 
   async findAll() {
-    return this.databaseService.Post.findMany({});
+    return this.databaseService.task.findMany({});
   }
 
   async findOne(id: number) {
-    return this.databaseService.Post.findOne({
+    return this.databaseService.task.findUnique({
       where: {
         id,
       },
@@ -22,7 +23,7 @@ export class TodoService {
   }
 
   async update(id: number, updateTodoDto: Prisma.TaskUpdateInput) {
-    return this.databaseService.Post.update({
+    return this.databaseService.task.update({
       where: {
         id,
       },
@@ -31,7 +32,7 @@ export class TodoService {
   }
 
   async remove(id: number) {
-    return this.databaseService.Post.delete({
+    return this.databaseService.task.delete({
       where: { id },
     });
   }
