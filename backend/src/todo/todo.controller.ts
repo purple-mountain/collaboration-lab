@@ -15,7 +15,7 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  create(@Body() createTodoDto: Prisma.PostCreateInput) {
+  create(@Body() createTodoDto: Prisma.TaskCreateInput) {
     return this.todoService.create(createTodoDto);
   }
 
@@ -32,7 +32,7 @@ export class TodoController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTodoDto: Prisma.PostUpdateInput,
+    @Body() updateTodoDto: Prisma.TaskUpdateInput,
   ) {
     return this.todoService.update(+id, updateTodoDto);
   }
