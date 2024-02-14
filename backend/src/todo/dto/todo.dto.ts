@@ -4,7 +4,7 @@ export const todoSchema = z.object({
   name: z
     .string()
     .max(255, { message: 'Name cannot be more than 255 characters long' }),
-  authorId: z.number(),
+  authorId: z.string(),
   isCompleted: z.boolean().optional(),
 });
 
