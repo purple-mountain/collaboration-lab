@@ -13,7 +13,6 @@ export class TodoService {
 
   async findAll(request: Request) {
     const authorId = request.get('Author-Id');
-    console.log(authorId);
     return this.databaseService.task.findMany({
       where: { authorId: authorId },
     });

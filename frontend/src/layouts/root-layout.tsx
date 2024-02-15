@@ -23,7 +23,9 @@ export default function RootLayout() {
     >
       <QueryClientProvider client={queryClient}>
         <main className={isDarkMode ? "dark" : "light"}>
-          <Outlet />
+          <div className="bg-white text-black antialiased dark:bg-bodyBackground dark:text-slate-200">
+            <Outlet />
+          </div>
         </main>
       </QueryClientProvider>
     </ClerkProvider>

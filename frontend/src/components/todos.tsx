@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTodos } from "../services/todo";
-import { TTodo } from "../types/todo";
+import { columns } from "../types/todo";
+import { TodoTable } from "./todoTable";
+import { TTodo } from "@/types/todoFormSchema";
+import { formatDate } from "@/utils/formatDate";
 
 export function Todos({ userId }: { userId: string | undefined | null }) {
   const todos = useQuery({
@@ -12,21 +15,16 @@ export function Todos({ userId }: { userId: string | undefined | null }) {
 
   if (todos.isError) return <p>Something went wrong. Try again</p>;
 
-  const data: TTodo[] = todos.data;
-
-  console.log(data);
+  const data: TTodo[] = todos.data.map((todo: TTodo) => ({...todo, createdAt: formatDate(new Date(todo.createdAt))}));
 
   if (data.length === 0) {
-    console.log(123);
     return <p className="">No Todos</p>;
   }
 
   return (
     <div className="">
       <ul>
-        {data.map((todo) => (
-          <p>{todo.name}</p>
-        ))}
+        <TodoTable columns={columns} data={data} />
       </ul>
     </div>
   );

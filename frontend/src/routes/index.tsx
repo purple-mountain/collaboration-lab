@@ -19,7 +19,7 @@ export default function IndexPage() {
         <SignedIn>
           <Header />
           <Todos userId={userId} />
-          <TodoCreateDialog />
+          <TodoCreateDialog userId={userId} />
         </SignedIn>
       </div>
     </section>
