@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Req,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Prisma } from '@prisma/client';
 import { ZodValidationPipe } from 'src/zod-validation.pipe';
 import { todoSchema } from './dto/todo.dto';
+import { Request } from 'express';
 
 @Controller('todo')
 export class TodoController {
@@ -26,8 +28,8 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  findAll(@Req() request: Request) {
+    return this.todoService.findAll(request);
   }
 
   @Get(':id')
@@ -45,7 +47,7 @@ export class TodoController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.todoService.remove(id);
   }
 }

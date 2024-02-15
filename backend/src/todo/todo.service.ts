@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
+import { Request } from 'express';
 
 @Injectable()
 export class TodoService {
@@ -10,8 +11,12 @@ export class TodoService {
     return this.databaseService.task.create({ data: createTodoDto });
   }
 
-  async findAll() {
-    return this.databaseService.task.findMany({});
+  async findAll(request: Request) {
+    const authorId = request.get('Author-Id');
+    console.log(authorId);
+    return this.databaseService.task.findMany({
+      where: { authorId: authorId },
+    });
   }
 
   async findOne(id: number) {
