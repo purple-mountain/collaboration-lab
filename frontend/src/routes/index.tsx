@@ -1,28 +1,27 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
-import { Link } from "react-router-dom";
-import { ThemeSwitcher } from "../components/themeSwitcher";
+import { SignedIn, useAuth } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import { Header } from "../components/header";
+import { Todos } from "../components/todos";
+import { TodoCreateDialog } from "@/components/todoCreateDialog";
 
 export default function IndexPage() {
+  const navigate = useNavigate();
+  const { isSignedIn, userId } = useAuth();
+
+  if (!isSignedIn) {
+    navigate("/sign-in");
+    return;
+  }
+
   return (
-    <div>
-      <SignedIn>
-        <UserButton afterSignOutUrl="/sign-in" />
-      </SignedIn>
-      <SignedOut>
-        <Link to="/sign-in">Sign In</Link>
-      </SignedOut>
-      <ThemeSwitcher />
-      <h1 className="dark:text-white text-black">This is the index page</h1>
-      <div>
-        <ul>
-          <li>
-            <Link to="/sign-up">Sign Up</Link>
-          </li>
-          <li>
-            <Link to="/sign-in">Sign In</Link>
-          </li>
-        </ul>
+    <section className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
+      <div className="flex h-screen flex-col font-sans">
+        <SignedIn>
+          <Header />
+          <Todos userId={userId} />
+          <TodoCreateDialog />
+        </SignedIn>
       </div>
-    </div>
+    </section>
   );
 }
